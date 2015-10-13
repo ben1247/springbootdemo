@@ -13,7 +13,7 @@ import com.ning.http.client.AsyncHttpClient;
  *
  * @author yue.zhang
  */
-public class Oauth2Client {
+public class Oauth2PasswordClient {
 
     private static final String clientId = "api-developer";
     private static final String secret = "9c32a5a49645464fe05d7f3835cf51c4";
@@ -23,6 +23,7 @@ public class Oauth2Client {
 
     private static final String oauthServerHost = "http://yunwan2.3322.org:57102";
     private static final String resourceServerHost = "http://yunwan2.3322.org:57101";
+//    private static final String resourceServerHost = "http://127.0.0.1:8170";
 
     /**
      * 获取accesstoken
@@ -105,18 +106,17 @@ public class Oauth2Client {
         }
     }
 
-
     public static void main(String [] args){
 
-        Oauth2Client client = new Oauth2Client();
+        Oauth2PasswordClient client = new Oauth2PasswordClient();
 
         AccessToken accessToken = client.getAccessToken();
         System.out.println("===================access_token信息====================");
         System.out.println(accessToken.getAccessToken());
 
-//        String trade = client.getTradeByTid("37317684094965000",1L,accessToken.getAccessToken());
-//        System.out.println("===================订单信息====================");
-//        System.out.println(trade);
+        String trade = client.getTradeByTid("83922345921037000",1L,accessToken.getAccessToken());
+        System.out.println("===================订单信息====================");
+        System.out.println(trade);
 //
 //        // 使用refreshToken再获取一次accessToken
 //        accessToken = client.refreshToken(accessToken.getRefreshToken());
