@@ -21,8 +21,8 @@ public class Oauth2CodeClient {
     private static final String username = "shuyunwyx";
     private static final String password = "shuyunwyx";
 
-    private static final String oauthServerHost = "http://yunwan2.3322.org:57102";
-//    private static final String oauthServerHost = "http://127.0.0.1:8083";
+//    private static final String oauthServerHost = "http://yunwan2.3322.org:57102";
+    private static final String oauthServerHost = "http://127.0.0.1:8083";
     private static final String resourceServerHost = "http://yunwan2.3322.org:57101";
 
     public AccessToken getAccessTokenByCode(String code,String redirectUri){
@@ -83,7 +83,7 @@ public class Oauth2CodeClient {
      */
     public static void main(String [] args){
 
-        String code = "B0FDDX";
+        String code = "0bbwkr";
         String redirectUri = "http://www.baidu.com";
 
         Oauth2CodeClient client = new Oauth2CodeClient();
