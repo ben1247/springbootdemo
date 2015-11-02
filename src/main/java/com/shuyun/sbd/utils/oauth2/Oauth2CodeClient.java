@@ -83,7 +83,7 @@ public class Oauth2CodeClient {
      */
     public static void main(String [] args){
 
-        String code = "0bbwkr";
+        String code = "11RRaV";
         String redirectUri = "http://www.baidu.com";
 
         Oauth2CodeClient client = new Oauth2CodeClient();

@@ -8,4 +8,13 @@ package com.shuyun.sbd.annotation;
  * @author yue.zhang
  */
 public class AnnoChild extends Anno {
+
+    private void privateCm1(){
+
+    }
+
+    public void publicCm2(){
+
+    }
+
 }
