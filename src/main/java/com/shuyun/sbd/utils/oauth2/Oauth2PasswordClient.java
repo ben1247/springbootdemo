@@ -117,7 +117,7 @@ public class Oauth2PasswordClient {
         String trade = client.getTradeByTid("83922345921037000",1L,accessToken.getAccessToken());
         System.out.println("===================订单信息====================");
         System.out.println(trade);
-//
+
 //        // 使用refreshToken再获取一次accessToken
 //        accessToken = client.refreshToken(accessToken.getRefreshToken());
 //        trade = client.getTradeByTid("37317684094965000",1L,accessToken.getAccessToken());
