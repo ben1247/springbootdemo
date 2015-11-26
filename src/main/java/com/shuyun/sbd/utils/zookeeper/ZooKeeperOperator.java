@@ -41,19 +41,19 @@ public class ZooKeeperOperator extends AbstractZooKeeper{
             operator.connect("127.0.0.1");
 
 //            operator.create("/root",null);
-//            System.out.println(Arrays.toString(operator.getData("/root")));
+//            System.out.println(Arrays.toString(operator.getData("/root"),"utf-8"));
 //
 //            byte[] data = new byte[]{'a','b','c','d'};
 //            operator.create("/root/child1",data);
-//            System.out.println(Arrays.toString(operator.getData("/root/child1")));
+//            System.out.println(Arrays.toString(operator.getData("/root/child1"),"utf-8"));
 //
 //            operator.create("/root/child2",data);
-//            System.out.println(Arrays.toString(operator.getData("/root/child2")));
+//            System.out.println(Arrays.toString(operator.getData("/root/child2"),"utf-8"));
 //
 //            String zktest="ZooKeeper的Java API测试";
-//            operator.create("/root/child3", zktest.getBytes());
+//            operator.create("/root/child3", zktest.getBytes("utf-8"));
 
-            System.out.println("获取设置的信息：" + new String(operator.getData("/root/child3")));
+            System.out.println("获取设置的信息：" + new String(operator.getData("/root/child3"),"utf-8"));
 
             System.out.println("节点孩子信息:");
             operator.getChild("/root");
