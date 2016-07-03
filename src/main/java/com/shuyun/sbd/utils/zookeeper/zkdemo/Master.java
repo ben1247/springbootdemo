@@ -64,7 +64,7 @@ public class Master implements Watcher {
             } catch (KeeperException.NodeExistsException e) {
                 isLeader = false;
                 break;
-            }  catch (KeeperException.ConnectionLossException e) {
+            } catch (KeeperException.ConnectionLossException e) {
                 e.printStackTrace();
             }catch (Exception e) {
                 e.printStackTrace();

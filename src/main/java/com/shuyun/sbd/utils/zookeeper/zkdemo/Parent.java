@@ -55,6 +55,7 @@ public class Parent implements Watcher{
                     break;
                 default:
                     System.out.println("Something went wrong: " + KeeperException.create(KeeperException.Code.get(rc),path));
+                    break;
             }
         }
     };

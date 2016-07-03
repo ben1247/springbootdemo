@@ -35,9 +35,12 @@ public class CuratorCrudExample {
 
         client.start();
 
+        // 同步
         client.create().withMode(CreateMode.EPHEMERAL).forPath("/example3", "example.basic".getBytes());
 
-
+        // 异步
+        client.create().withMode(CreateMode.EPHEMERAL).inBackground().forPath("/example3", "example.basic".getBytes());
+        client.getData().watched().inBackground().forPath("/example3");
 
         CloseableUtils.closeQuietly(client);
 

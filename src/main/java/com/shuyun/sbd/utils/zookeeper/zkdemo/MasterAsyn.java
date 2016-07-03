@@ -23,18 +23,23 @@ public class MasterAsyn implements Watcher{
 
     boolean isLeader = false;
 
+    final static String NODE_PATH = "/master";
+
     AsyncCallback.StringCallback masterCreateCallback = new AsyncCallback.StringCallback() {
         @Override
         public void processResult(int rc, String path, Object ctx, String name) {
             switch (KeeperException.Code.get(rc)){
                 case CONNECTIONLOSS:
-                    checkMaster();
-                    return;
+                    checkMaster(); // 在链接丢失事件发生的情况下，客户端检查/master节点是否存在，因为客户端并不知道是否能够创建这个节点
+                    break;
                 case OK:
                     isLeader = true;
                     break;
+                case NODEEXISTS:
+                    masterExists(); // 如果存在则对该节点进行监控
+                    break;
                 default:
-                    isLeader = false;
+                    isLeader = false; // 如果发生了
             }
             System.out.println("I am " + (isLeader ? "" : " not") + " the leader  " + ctx.toString());
         }
@@ -46,10 +51,11 @@ public class MasterAsyn implements Watcher{
             switch (KeeperException.Code.get(rc)){
                 case CONNECTIONLOSS:
                     checkMaster();
-                    return;
+                    break;
                 case NONODE:
                     runForMaster();
-                    return;
+                    break;
+                default:
             }
         }
     };
@@ -72,8 +78,43 @@ public class MasterAsyn implements Watcher{
     }
 
     void runForMaster(){
-        zk.create("/master",serverId.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL,masterCreateCallback,"传进来咯");
+        zk.create(NODE_PATH,serverId.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL,masterCreateCallback,"传进来咯");
     }
+
+    void masterExists(){
+        zk.exists(NODE_PATH,masterExistsWatcher,masterExistsCallback,null);
+    }
+
+    Watcher masterExistsWatcher = new Watcher(){
+        @Override
+        public void process(WatchedEvent event) {
+            if(event.getType()== Event.EventType.NodeDeleted){
+                if(NODE_PATH.equals(event.getPath())){
+                    runForMaster();
+                }
+            }
+        }
+    };
+
+    AsyncCallback.StatCallback masterExistsCallback = new AsyncCallback.StatCallback() {
+        @Override
+        public void processResult(int rc, String path, Object ctx, Stat stat) {
+            switch (KeeperException.Code.get(rc)){
+                case CONNECTIONLOSS: // 连接丢失的情况下重试
+                    masterExists();
+                    break;
+                case OK: // 如果返回ok，判断znode节点是否存在，不存在就竞选主节点
+                    if(stat == null){
+//                        stat = MasterStates.RUNNING;
+                        runForMaster();
+                    }
+                    break;
+                default: // 如果发生意外情况，通过获取节点数据来检查/master是否存在
+                    checkMaster();
+            }
+        }
+    };
+
 
 
     @Override
