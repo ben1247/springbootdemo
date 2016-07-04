@@ -87,9 +87,14 @@ public class MutiThreadToTask {
         @Override
         public void run() {
             try {
+                long st = System.currentTimeMillis();
                 for(String data : partDataList){
                     System.out.println("ExecTaskThread to run , name: " + Thread.currentThread().getName() + "  data: " + data);
+//                    Thread.sleep(1000);
                 }
+                long et = System.currentTimeMillis();
+                System.out.println("ExecTaskThread running , name: " + Thread.currentThread().getName() + "  host: " + (et-st) + " ms");
+
             }catch (Exception e){
                 e.printStackTrace();
             }finally {
