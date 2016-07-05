@@ -4,7 +4,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Component:
+ * Component: 阻塞队列
  * Description:
  * Date: 16/7/4
  *
