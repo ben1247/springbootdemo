@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
  *
  * @author yue.zhang
  */
-public class MutiThreadToTask {
+public class MutiThreadToTaskMain {
 
 
     public void execute(List<String> dataList){
@@ -127,7 +127,7 @@ public class MutiThreadToTask {
             dataList.add(i + "");
         }
 
-        new MutiThreadToTask().execute(dataList);
+        new MutiThreadToTaskMain().execute(dataList);
     }
 
 }

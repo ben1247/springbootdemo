@@ -24,7 +24,7 @@ public class Waiter implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         // 等latch减到0时才会调用
         System.out.println("Waiter Released");
     }

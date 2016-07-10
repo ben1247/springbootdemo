@@ -12,7 +12,7 @@ import java.util.concurrent.CountDownLatch;
  *
  * @author yue.zhang
  */
-public class CountDownLatchExample {
+public class CountDownLatchMain {
 
     public static void main(String [] args) throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(3);

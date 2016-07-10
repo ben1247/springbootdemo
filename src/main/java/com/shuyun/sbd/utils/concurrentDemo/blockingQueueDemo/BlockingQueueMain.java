@@ -10,7 +10,7 @@ import java.util.concurrent.BlockingQueue;
  *
  * @author yue.zhang
  */
-public class BlockingQueueExample {
+public class BlockingQueueMain {
 
     public static void main(String [] args) throws InterruptedException {
         BlockingQueue<String> queue = new ArrayBlockingQueue<>(1024);
