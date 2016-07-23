@@ -42,7 +42,6 @@ public class SocketChannelDemo {
 
         socketChannel.close();
 
-//        Thread.sleep(50000);
     }
 
     public static void main(String [] args) throws IOException, InterruptedException {
