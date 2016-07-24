@@ -23,6 +23,7 @@ public class ServiceSocketChannelDemo {
         serverSocketChannel.socket().bind(new InetSocketAddress(8999));
         serverSocketChannel.configureBlocking(false); // 设置非阻塞
 
+        // 用轮询的方式去监听是否有消息过来（这种方式显然是不好的，好的方式请看SelectorServerSocketChannelDemo的代码）
         while(true){
             SocketChannel socketChannel = serverSocketChannel.accept();
             if(socketChannel != null){

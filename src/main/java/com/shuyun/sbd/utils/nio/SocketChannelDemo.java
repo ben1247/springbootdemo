@@ -22,7 +22,7 @@ public class SocketChannelDemo {
         socketChannel.connect(new InetSocketAddress("localhost", 8999));
 //        socketChannel.configureBlocking(false); // 非阻塞
 
-        String requestStr = "hello server socket channel";
+        String requestStr = "你好！张总";
         ByteBuffer write = ByteBuffer.wrap(requestStr.getBytes("UTF-8")); // 制定字符集
         socketChannel.write(write);
 
