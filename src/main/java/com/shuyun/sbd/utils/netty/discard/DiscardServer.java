@@ -6,7 +6,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
- * Component:
+ * Component: DISCARD服务(丢弃服务，指的是会忽略所有接收的数据的一种协议)
  * Description:
  * Date: 16/7/25
  *
