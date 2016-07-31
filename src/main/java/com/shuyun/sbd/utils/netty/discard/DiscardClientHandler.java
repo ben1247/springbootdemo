@@ -1,7 +1,6 @@
 package com.shuyun.sbd.utils.netty.discard;
 
-import com.shuyun.sbd.utils.net.ThreadEchoHandler;
-import com.shuyun.sbd.utils.netty.Constant;
+import com.shuyun.sbd.utils.netty.common.Constant;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,23 +26,26 @@ public class DiscardClientHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf buf = (ByteBuf) msg;
-        StringBuilder sb = new StringBuilder();
-        try{
-            while(buf.isReadable()){ // 这个低效的循环事实上可以简化为:System.out.println(in.toString(io.netty.util.CharsetUtil.US_ASCII))
-                sb.append((char) buf.readByte());
-            }
+//        ByteBuf buf = (ByteBuf) msg;
+//        StringBuilder sb = new StringBuilder();
+//        try{
+//            while(buf.isReadable()){ // 这个低效的循环事实上可以简化为:System.out.println(in.toString(io.netty.util.CharsetUtil.US_ASCII))
+//                sb.append((char) buf.readByte());
+//            }
+//
+//            ctx.channel().attr(AttributeKey.valueOf(Constant.ATTRIBUTE_KEY)).set(sb.toString());
+//
+//            // 关闭服务端与客户端的channel
+//            ctx.channel().close();
+//            ctx.close();
+//
+//        }finally {
+//            ReferenceCountUtil.release(msg); // 或者，你可以在这里调用in.release()。
+//        }
 
-            ctx.channel().attr(AttributeKey.valueOf(Constant.ATTRIBUTE_KEY)).set(sb.toString());
-
-            // 关闭服务端与客户端的channel
-            ctx.channel().close();
-            ctx.close();
-
-        }finally {
-            ReferenceCountUtil.release(msg); // 或者，你可以在这里调用in.release()。
-        }
-
+        ctx.channel().attr(AttributeKey.valueOf(Constant.ATTRIBUTE_KEY)).set(msg.toString());
+//        ctx.channel().close();
+        ctx.close();
     }
 
     @Override

@@ -42,21 +42,26 @@ public class DiscardServerHandler extends ChannelHandlerAdapter {
                     }
                 }
          */
-        ByteBuf in = (ByteBuf) msg;
-
-        int s = 0;
-        try{
-            while(in.isReadable()){ // 这个低效的循环事实上可以简化为:System.out.println(in.toString(io.netty.util.CharsetUtil.US_ASCII))
-                s = in.readInt();
-                System.out.print(s);
-            }
-        }finally {
-            ReferenceCountUtil.release(msg); // 或者，你可以在这里调用in.release()。
-        }
-
+//        ByteBuf in = (ByteBuf) msg;
+//
+//        int s = 0;
+//        try{
+//            while(in.isReadable()){ // 这个低效的循环事实上可以简化为:System.out.println(in.toString(io.netty.util.CharsetUtil.US_ASCII))
+//                s = in.readInt();
+//                System.out.print(s);
+//            }
+//        }finally {
+//            ReferenceCountUtil.release(msg); // 或者，你可以在这里调用in.release()。
+//        }
+//
         // 回复客户端
-        ByteBuf buf = ctx.alloc().buffer().writeBytes(("I have receive " + s + "\r\n").getBytes("utf-8"));
-        ctx.writeAndFlush(buf);
+//        ByteBuf buf = ctx.alloc().buffer().writeBytes(("I have receive " + s + "\r\n").getBytes("utf-8"));
+//        ctx.writeAndFlush(buf);
+
+        // 处理业务代码，回复客户端
+        System.out.println("server has receive: " + msg);
+        String result = "I I I have receive " + msg;
+        ctx.writeAndFlush(result);
     }
 
     /**

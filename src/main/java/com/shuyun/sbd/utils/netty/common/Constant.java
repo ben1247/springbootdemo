@@ -1,4 +1,4 @@
-package com.shuyun.sbd.utils.netty;
+package com.shuyun.sbd.utils.netty.common;
 
 /**
  * Component:
