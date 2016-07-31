@@ -55,7 +55,7 @@ public class DiscardServerHandler extends ChannelHandlerAdapter {
         }
 
         // 回复客户端
-        ByteBuf buf = ctx.alloc().buffer().writeBytes(("I have receive " + s).getBytes("utf-8"));
+        ByteBuf buf = ctx.alloc().buffer().writeBytes(("I have receive " + s + "\r\n").getBytes("utf-8"));
         ctx.writeAndFlush(buf);
     }
 
