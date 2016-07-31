@@ -3,6 +3,7 @@ package com.shuyun.sbd.utils.netty.discard;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
@@ -42,14 +43,14 @@ public class DiscardServer {
 
             b.group(bossGroup,workerGroup)
                 .channel(NioServerSocketChannel.class) // 这里我们指定使用NioServerSocketChannel类来举例说明一个新的Channel如何接收进来的连接。
-                .childHandler(new ChannelInitializer(){
+                .childHandler(new ChannelInitializer<SocketChannel>(){
                     // 这里的事件处理类经常会被用来处理一个最近的已经接收的Channel。
                     // ChannelInitializer是一个特殊的处理类，他的目的是帮助使用者配置一个新的Channel。
                     // 也许你想通过增加一些处理类比如DiscardServerHandle来配置一个新的Channel或者其对应的ChannelPipeline来实现你的网络程序。
                     // 当你的程序变的复杂时，可能你会增加更多的处理类到pipline上，然后提取这些匿名类到最顶层的类上。
                     @Override
-                    protected void initChannel(Channel channel) throws Exception {
-                        channel.pipeline().addLast(new DiscardServerHandler());
+                    protected void initChannel(SocketChannel channel) throws Exception {
+                        channel.pipeline().addLast(new DiscardServerHandler()); // 处理真正的业务，worker要做的事情
                     }
                 })
                 .option(ChannelOption.SO_BACKLOG,128) // 你可以设置这里指定的通道实现的配置参数。我们正在写一个TCP/IP的服务端，因此我们被允许设置socket的参数选项比如tcpNoDelay和keepAlive

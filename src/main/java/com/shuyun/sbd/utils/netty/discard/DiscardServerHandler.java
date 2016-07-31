@@ -42,16 +42,21 @@ public class DiscardServerHandler extends ChannelHandlerAdapter {
                     }
                 }
          */
-        ByteBuf in = ((ByteBuf) msg);
+        ByteBuf in = (ByteBuf) msg;
+
+        int s = 0;
         try{
             while(in.isReadable()){ // 这个低效的循环事实上可以简化为:System.out.println(in.toString(io.netty.util.CharsetUtil.US_ASCII))
-                System.out.print((char)in.readByte());
-                System.out.flush();
+                s = in.readInt();
+                System.out.print(s);
             }
         }finally {
             ReferenceCountUtil.release(msg); // 或者，你可以在这里调用in.release()。
         }
 
+        // 回复客户端
+        ByteBuf buf = ctx.alloc().buffer().writeBytes(("I have receive " + s).getBytes("utf-8"));
+        ctx.writeAndFlush(buf);
     }
 
     /**
