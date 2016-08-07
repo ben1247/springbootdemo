@@ -1,6 +1,7 @@
 package com.shuyun.sbd.utils.netty.protobuf;
 
 import com.google.protobuf.ByteString;
+import com.shuyun.sbd.utils.netty.protobuf.media.Media;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -23,14 +24,15 @@ public class PbServerHandler extends ChannelHandlerAdapter {
 
         System.out.println("cmd: " + cmd);
 
-        ByteString buf = requestMsg.getRequestParam();
+//        ByteString buf = requestMsg.getRequestParam();
+//
+//        UserProbuf.User user = UserProbuf.User.parseFrom(buf);
+//
+//        System.out.println("username: " + user.getUsername());
+//
+//        ctx.writeAndFlush(user); // 返回给客户端
 
-        UserProbuf.User user = UserProbuf.User.parseFrom(buf);
-
-        System.out.println("username: " + user.getUsername());
-
-
-        // 返回给客户端
-        ctx.writeAndFlush(user);
+        Object response = Media.execute(requestMsg);
+        ctx.writeAndFlush(response);
     }
 }
