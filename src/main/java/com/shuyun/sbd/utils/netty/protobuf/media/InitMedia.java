@@ -38,6 +38,8 @@ public class InitMedia implements ApplicationListener<ContextRefreshedEvent>,Ord
                     methodBean.setBean(bean);
                     methodBean.setMethod(m);
                     Media.methodBeans.put(cmd, methodBean);
+
+                    System.out.println("cmd: " + cmd);
                 }
             }
         }

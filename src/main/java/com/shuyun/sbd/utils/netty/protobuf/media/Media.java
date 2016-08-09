@@ -39,7 +39,7 @@ public class Media {
 
             Constructor c = null;
             for(Constructor constructor : constructors){
-                if(constructor.getParameterTypes()[0].equals("boolean")){
+                if(constructor.getParameterTypes()[0].getName().equals("boolean")){
                     c = constructor;
                 }
             }
@@ -50,8 +50,8 @@ public class Media {
                 // 初始化参数
                 Object parameterObj = c.newInstance(true);
 
-                Method parameterMethod = parameterType.getMethod("parseFrom",ByteString.class);
                 ByteString requestParam = requestMsg.getRequestParam();
+                Method parameterMethod = parameterType.getMethod("parseFrom",ByteString.class);
 
                 // 把方法参数赋值
                 parameterObj = parameterMethod.invoke(parameterObj,requestParam);
