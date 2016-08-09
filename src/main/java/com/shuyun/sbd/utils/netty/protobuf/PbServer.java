@@ -1,12 +1,15 @@
 package com.shuyun.sbd.utils.netty.protobuf;
 
-import com.shuyun.sbd.utils.netty.discard.MyChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.Ordered;
+import org.springframework.stereotype.Component;
 
 /**
  * Component: DISCARD服务(丢弃服务，指的是会忽略所有接收的数据的一种协议)
@@ -15,15 +18,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  *
  * @author yue.zhang
  */
-public class PbServer {
+@Component
+public class PbServer implements ApplicationListener<ContextRefreshedEvent>,Ordered{
 
-    private int port;
-
-    public PbServer(int port) {
-        this.port = port;
-    }
-
-    public void run() throws Exception{
+    public void run(int port) throws Exception{
 
         /*
             NioEventLoopGroup 是用来处理I/O操作的多线程事件循环器，
@@ -66,12 +64,26 @@ public class PbServer {
 
     }
 
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        try {
+            run(8999);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.LOWEST_PRECEDENCE;
+    }
+
     /**
      * 最简单的测试方法是用telnet 命令。例如，你可以在命令行上输入telnet localhost 8080或者其他类型参数。
      * @param args
      * @throws Exception
      */
     public static void main(String [] args) throws Exception {
-        new PbServer(8999).run();
+        new PbServer().run(8999);
     }
 }
