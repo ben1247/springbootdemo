@@ -55,7 +55,7 @@ public class Media {
 
                 // 把方法参数赋值
                 parameterObj = parameterMethod.invoke(parameterObj,requestParam);
-
+                // 调用controller 的 saveUser 方法
                 response = method.invoke(bean,parameterObj);
             }
 

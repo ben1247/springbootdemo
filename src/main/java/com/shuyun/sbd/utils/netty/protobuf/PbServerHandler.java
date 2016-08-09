@@ -1,6 +1,5 @@
 package com.shuyun.sbd.utils.netty.protobuf;
 
-import com.google.protobuf.ByteString;
 import com.shuyun.sbd.utils.netty.protobuf.media.Media;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
