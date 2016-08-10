@@ -16,7 +16,7 @@ public class PbServerHandler extends ChannelHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        // 因为有解码器的缘故，所以这里可以强转为RequestMsg 对象（ channel.pipeline().addLast(new ProtobufDecoder(RequestMsgProbuf.RequestMsg.getDefaultInstance())); ）
+        // 因为有解码器的缘故，所以这里可以强转为RequestMsg 对象（ 因为之前的解码器：channel.pipeline().addLast(new ProtobufDecoder(RequestMsgProbuf.RequestMsg.getDefaultInstance())); ）
         RequestMsgProbuf.RequestMsg requestMsg = (RequestMsgProbuf.RequestMsg)msg;
 
         String cmd = requestMsg.getCmd();
@@ -31,7 +31,9 @@ public class PbServerHandler extends ChannelHandlerAdapter {
 //
 //        ctx.writeAndFlush(user); // 返回给客户端
 
+        // 利用反射来执行controller的方法
         Object response = Media.execute(requestMsg);
+
         ctx.writeAndFlush(response);
     }
 }

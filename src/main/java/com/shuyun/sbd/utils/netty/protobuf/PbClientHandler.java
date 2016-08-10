@@ -16,10 +16,14 @@ public class PbClientHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        UserProbuf.User user = (UserProbuf.User)msg;
 
-        ctx.channel().attr(AttributeKey.valueOf(Constant.ATTRIBUTE_KEY)).set(user);
+        // 收到服务端的回复消息
+        ResponseMsgProbuf.ResponseMsg responseMsg = (ResponseMsgProbuf.ResponseMsg)msg;
 
+        // 存放到channel的属性中，供外边的调用者使用
+        ctx.channel().attr(AttributeKey.valueOf(Constant.ATTRIBUTE_KEY)).set(responseMsg.getRespnoseParam());
+
+        // 关闭channel
         ctx.channel().close();
     }
 }

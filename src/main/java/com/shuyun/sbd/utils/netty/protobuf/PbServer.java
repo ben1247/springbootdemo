@@ -24,6 +24,7 @@ public class PbServer implements ApplicationListener<ContextRefreshedEvent>,Orde
     public void run(int port) throws Exception{
 
         /*
+            配置服务端的nio线程组
             NioEventLoopGroup 是用来处理I/O操作的多线程事件循环器，
             Netty提供了许多不同的EventLoopGroup的实现用来处理不同传输协议。
             在这个例子中我们实现了一个服务端的应用，因此会有2个NioEventLoopGroup会被使用。
@@ -43,21 +44,22 @@ public class PbServer implements ApplicationListener<ContextRefreshedEvent>,Orde
 
             b.group(bossGroup,workerGroup)
                 .channel(NioServerSocketChannel.class) // 这里我们指定使用NioServerSocketChannel类来举例说明一个新的Channel如何接收进来的连接。
-                .childHandler(new PbChannelInitializer())
-                .option(ChannelOption.SO_BACKLOG,128) // 你可以设置这里指定的通道实现的配置参数。我们正在写一个TCP/IP的服务端，因此我们被允许设置socket的参数选项比如tcpNoDelay和keepAlive
-                .childOption(ChannelOption.SO_KEEPALIVE,true); // 你关注过option()和childOption()吗？option()是提供给NioServerSocketChannel用来接收进来的连接。childOption()是提供给由父管道ServerChannel接收到的连接，在这个例子中也是NioServerSocketChannel。
+                .option(ChannelOption.SO_BACKLOG, 1024) // 你可以设置这里指定的通道实现的配置参数。我们正在写一个TCP/IP的服务端，因此我们被允许设置socket的参数选项比如tcpNoDelay和keepAlive
+                .childOption(ChannelOption.SO_KEEPALIVE, true) // 你关注过option()和childOption()吗？option()是提供给NioServerSocketChannel用来接收进来的连接。childOption()是提供给由父管道ServerChannel接收到的连接，在这个例子中也是NioServerSocketChannel。
+                .childHandler(new PbChannelInitializer());
 
-            // Bind and start to accept incoming connections.
+            // 绑定端口，同步等待成功
             ChannelFuture f = b.bind(port).sync(); // 我们继续，剩下的就是绑定端口然后启动服务。这里我们在机器上绑定了机器所有网卡上的8999端口。当然现在你可以多次调用bind()方法(基于不同绑定地址)。
 
             // Wait until the server socket is closed.
             // In this example, this does not happen, but you can do that to gracefully
 
 
-            // shut down your server.
+            // 等待服务端监听端口关闭
             f.channel().closeFuture().sync();
 
         }finally {
+            // 优雅退出，释放线程池资源
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

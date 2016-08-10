@@ -51,11 +51,12 @@ public class Media {
                 Object parameterObj = c.newInstance(true);
 
                 ByteString requestParam = requestMsg.getRequestParam();
+
                 Method parameterMethod = parameterType.getMethod("parseFrom",ByteString.class);
 
                 // 把方法参数赋值
                 parameterObj = parameterMethod.invoke(parameterObj,requestParam);
-                // 调用controller 的 saveUser 方法
+                // 例：调用controller 的 saveUser 方法
                 response = method.invoke(bean,parameterObj);
             }
 

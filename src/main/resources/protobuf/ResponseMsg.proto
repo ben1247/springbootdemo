@@ -1,0 +1,8 @@
+// 编译：protoc --java_out=../../java/ ./ResponseMsg.proto
+
+option java_package="com.shuyun.sbd.utils.netty.protobuf";
+option java_outer_classname="ResponseMsgProbuf";
+
+message ResponseMsg{
+    required bytes respnoseParam = 1;
+}

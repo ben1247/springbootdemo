@@ -3,6 +3,7 @@ package com.shuyun.sbd.utils.netty.protobuf.user;
 import com.shuyun.sbd.utils.netty.protobuf.PbClient;
 import com.shuyun.sbd.utils.netty.protobuf.RequestMsgProbuf.RequestMsg;
 import com.shuyun.sbd.utils.netty.protobuf.UserProbuf.User;
+import com.shuyun.sbd.utils.netty.protobuf.EmailProbuf.Email;
 
 /**
  * Component:
@@ -14,7 +15,7 @@ import com.shuyun.sbd.utils.netty.protobuf.UserProbuf.User;
 public class UserService {
 
     // 请在 UserServiceTest 这个测试类中运行
-    public User save() throws Exception {
+    public User saveUser() throws Exception {
         User.Builder user = User.newBuilder();
         user.setId(1);
         user.setPhone("13918641233");
@@ -24,7 +25,22 @@ public class UserService {
         requestMsg.setCmd("saveUser");
         requestMsg.setRequestParam(user.build().toByteString());
 
-        return (User)PbClient.start(requestMsg);
+        // 调用netty客户端进行通讯
+        return User.parseFrom(PbClient.start(requestMsg));
+    }
+
+    public Email getEmail() throws Exception {
+        User.Builder user = User.newBuilder();
+        user.setId(1);
+        user.setPhone("13918641233");
+        user.setUsername("张三");
+
+        RequestMsg.Builder requestMsg = RequestMsg.newBuilder();
+        requestMsg.setCmd("getEmailByUser");
+        requestMsg.setRequestParam(user.build().toByteString());
+
+        // 调用netty客户端进行通讯
+        return Email.parseFrom(PbClient.start(requestMsg));
     }
 
 }

@@ -1,0 +1,10 @@
+// 编译：protoc --java_out=../../java/ ./Email.proto
+option java_package="com.shuyun.sbd.utils.netty.protobuf";
+option java_outer_classname="EmailProbuf";
+
+message Email{
+    required int32 id = 1;
+    required string subject = 2;
+    optional string content = 3;
+    required string fromUser = 4;
+}
