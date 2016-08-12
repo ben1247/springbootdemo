@@ -1,4 +1,4 @@
-package com.shuyun.sbd.utils.netty.protobuf.media;
+package com.shuyun.sbd.utils.netty.media;
 
 import java.lang.reflect.Method;
 

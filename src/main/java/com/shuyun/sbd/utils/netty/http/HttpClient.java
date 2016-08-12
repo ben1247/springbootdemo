@@ -1,7 +1,10 @@
-package com.shuyun.sbd.utils.netty.protobuf;
+package com.shuyun.sbd.utils.netty.http;
 
 import com.google.protobuf.ByteString;
 import com.shuyun.sbd.utils.netty.common.Constant;
+import com.shuyun.sbd.utils.netty.protobuf.PbClientHandler;
+import com.shuyun.sbd.utils.netty.protobuf.RequestMsgProbuf;
+import com.shuyun.sbd.utils.netty.protobuf.ResponseMsgProbuf;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -24,7 +27,7 @@ import io.netty.util.AttributeKey;
  *
  * @author yue.zhang
  */
-public class PbClient {
+public class HttpClient {
 
     private static Bootstrap b;
 
@@ -36,7 +39,6 @@ public class PbClient {
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.SO_KEEPALIVE, true)
                     .handler(new ChannelInitializer<SocketChannel>() {
-                        // 其作用是当创建NioSocketChannel成功之后，在进行初始化时，将它的ChannelHandler设置到ChannelPipeline中，用户处理网络I/事件。
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             // 使用和protobuf相关的自4个解码和编码器
@@ -65,7 +67,7 @@ public class PbClient {
         // 发送
         f.channel().writeAndFlush(obj);
 
-        // 等待客户端链路关闭
+        // 等待通道关闭，一般都是客户端可以关闭通道
         f.channel().closeFuture().sync();
 
         // 通道已关闭，返回通道的自定义属性值

@@ -3,7 +3,7 @@ package com.shuyun.sbd.utils.netty.protobuf.user;
 import com.shuyun.sbd.utils.netty.protobuf.EmailProbuf;
 import com.shuyun.sbd.utils.netty.protobuf.ResponseMsgProbuf;
 import com.shuyun.sbd.utils.netty.protobuf.UserProbuf;
-import com.shuyun.sbd.utils.netty.protobuf.media.Remote;
+import com.shuyun.sbd.utils.netty.media.Remote;
 import org.springframework.stereotype.Controller;
 
 /**

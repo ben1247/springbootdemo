@@ -16,6 +16,8 @@ import io.netty.util.ReferenceCountUtil;
  */
 public class DiscardClientHandler extends ChannelHandlerAdapter {
 
+    // 当客户端和服务端TCP链路建立成功之后，Netty的NI线程会调用channelActive方法，发送查询事件的指令给服务端，
+    // 调用ChannelHandlerContext的writeAndFlush方法将请求消息发送给服务端
 //    @Override
 //    public void channelActive(ChannelHandlerContext ctx) throws Exception {
 //        int req = (int)ctx.channel().attr(AttributeKey.valueOf(Constant.ATTRIBUTE_KEY)).get();

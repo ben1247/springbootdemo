@@ -1,6 +1,6 @@
 package com.shuyun.sbd.utils.netty.protobuf;
 
-import com.shuyun.sbd.utils.netty.protobuf.media.Media;
+import com.shuyun.sbd.utils.netty.media.Media;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 

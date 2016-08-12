@@ -1,4 +1,4 @@
-package com.shuyun.sbd.utils.netty.protobuf.media;
+package com.shuyun.sbd.utils.netty.media;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

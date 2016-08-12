@@ -1,5 +1,6 @@
-package com.shuyun.sbd.utils.netty.protobuf;
+package com.shuyun.sbd.utils.netty.http;
 
+import com.shuyun.sbd.utils.netty.protobuf.PbChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -18,8 +19,8 @@ import org.springframework.stereotype.Component;
  *
  * @author yue.zhang
  */
-//@Component
-public class PbServer implements ApplicationListener<ContextRefreshedEvent>,Ordered{
+@Component
+public class HttpServer implements ApplicationListener<ContextRefreshedEvent>,Ordered{
 
     public void run(int port) throws Exception{
 
@@ -48,11 +49,14 @@ public class PbServer implements ApplicationListener<ContextRefreshedEvent>,Orde
                 .childOption(ChannelOption.SO_KEEPALIVE, true) // 你关注过option()和childOption()吗？option()是提供给NioServerSocketChannel用来接收进来的连接。childOption()是提供给由父管道ServerChannel接收到的连接，在这个例子中也是NioServerSocketChannel。
                 .childHandler(new PbChannelInitializer());
 
-            // 绑定端口，同步等待成功,返回的ChannelFuture，它的功能类似于JD的java.util.concurrent.Future,主要用于异步操作的通知回调
+            // 绑定端口，同步等待成功
             ChannelFuture f = b.bind(port).sync(); // 我们继续，剩下的就是绑定端口然后启动服务。这里我们在机器上绑定了机器所有网卡上的8999端口。当然现在你可以多次调用bind()方法(基于不同绑定地址)。
 
+            // Wait until the server socket is closed.
+            // In this example, this does not happen, but you can do that to gracefully
 
-            // 该方法进行阻塞，等待服务端链路关闭之后main函数才退出
+
+            // 等待服务端监听端口关闭
             f.channel().closeFuture().sync();
 
         }finally {
@@ -83,6 +87,6 @@ public class PbServer implements ApplicationListener<ContextRefreshedEvent>,Orde
      * @throws Exception
      */
     public static void main(String [] args) throws Exception {
-        new PbServer().run(8999);
+        new HttpServer().run(8999);
     }
 }
