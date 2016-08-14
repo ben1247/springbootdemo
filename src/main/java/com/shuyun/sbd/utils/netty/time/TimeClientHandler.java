@@ -16,27 +16,36 @@ import java.util.Date;
  */
 public class TimeClientHandler extends ChannelHandlerAdapter{
 
-    private final ByteBuf firstMessage;
+    private int counter;
+
+    private byte[] req;
 
     public TimeClientHandler(){
-        byte [] req = "QUERY TIME ORDER".getBytes();
-//        firstMessage = Unpooled.buffer(req.length);
-//        firstMessage.writeBytes(req);
-        firstMessage = Unpooled.copiedBuffer(req);
+        req = ("QUERY TIME ORDER" + System.getProperty("line.separator")).getBytes();
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(firstMessage);
+        ByteBuf message;
+        for(int i = 0; i < 100; i++){
+            message = Unpooled.copiedBuffer(req);
+            ctx.writeAndFlush(message);
+        }
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf buf = (ByteBuf) msg;
-        byte [] req = new byte[buf.readableBytes()];
-        buf.readBytes(req);
-        String body = new String(req,"utf-8");
-        System.out.println("Now is :" + body);
+
+        // 未使用解码器
+//        ByteBuf buf = (ByteBuf) msg;
+//        byte [] req = new byte[buf.readableBytes()];
+//        buf.readBytes(req);
+//        String body = new String(req,"utf-8");
+
+        // 使用了解码器
+        String body = (String)msg;
+        System.out.println("Now is :" + body + " the counter is : " + ++counter);
+
     }
 
     @Override

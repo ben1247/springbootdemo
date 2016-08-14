@@ -3,9 +3,10 @@ package com.shuyun.sbd.utils.netty.time;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-
-import java.nio.channels.SocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
 
 /**
  * Component:
@@ -25,11 +26,12 @@ public class TimeClient {
 
             b.group(workerGroup).channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY,true)
-                    .handler(new ChannelInitializer() {
-
+                    .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(Channel ch) throws Exception {
-                            ch.pipeline().addLast(new TimeClientHandler2());
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
+                            ch.pipeline().addLast(new StringDecoder());
+                            ch.pipeline().addLast(new TimeClientHandler());
                         }
                     });
 
