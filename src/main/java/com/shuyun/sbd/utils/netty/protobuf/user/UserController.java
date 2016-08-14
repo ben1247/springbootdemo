@@ -38,4 +38,9 @@ public class UserController {
         return response;
     }
 
+    @Remote("httpGetEmailByUser")
+    public Object getEmail(String email){
+        email = email + " hhhh";
+        return email;
+    }
 }

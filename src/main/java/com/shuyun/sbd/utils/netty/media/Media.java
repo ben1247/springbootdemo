@@ -74,7 +74,11 @@ public class Media {
 
             }else if(obj instanceof RequestParam){
                 RequestParam requestParam = (RequestParam)obj;
-                parameterObj = JsonUtil.readValue(requestParam.getParameter().toString(),method.getParameterTypes()[0]);
+                if(method.getParameterTypes()[0].getName().equalsIgnoreCase("java.lang.String")){
+                    parameterObj = requestParam.getParameter().toString();
+                }else{
+                    parameterObj = JsonUtil.readValue(requestParam.getParameter().toString(),method.getParameterTypes()[0]);
+                }
             }
 
             // 例：调用controller 的 saveUser 方法
