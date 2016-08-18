@@ -1,10 +1,8 @@
 package com.shuyun.sbd.utils.netty.protobuf;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.shuyun.sbd.utils.netty.protobuf.subscribeBook.SubscribeReqProto;
 import junit.framework.TestCase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Component:
