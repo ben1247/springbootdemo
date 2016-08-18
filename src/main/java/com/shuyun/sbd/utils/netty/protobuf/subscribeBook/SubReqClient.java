@@ -33,10 +33,20 @@ public class SubReqClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
+
+                        // ================== 解码 =================================
+
+                        // 这是针对protobuf协议的ProtobufVarint32LengthFieldPrepender()所加的长度属性的解码器(主要用于半包处理)
                         ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
                         ch.pipeline().addLast(new ProtobufDecoder(SubscribeRespProto.SubscribeResp.getDefaultInstance()));
+
+                        // ================== 编码 =================================
+
+                        // 对protobuf协议的的消息头上加上一个长度为32的整形字段，用于标志这个消息的长度。
                         ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                         ch.pipeline().addLast(new ProtobufEncoder());
+
+                        // ================== 业务处理 =================================
                         ch.pipeline().addLast(new SubReqClientHandler());
                     }
                 });

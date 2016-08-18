@@ -42,16 +42,18 @@ public class SubReqServer {
 
                             // ================== 解码 =================================
 
-                            // 主要用于半包处理
+                            // 这是针对protobuf协议的ProtobufVarint32LengthFieldPrepender()所加的长度属性的解码器(主要用于半包处理)
                             ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
                             // 告诉ProtobufDecoder 需要解码的目标类是什么，否则仅仅从字节数组种是无法判断出要解码的目标类型信息的
                             ch.pipeline().addLast(new ProtobufDecoder(SubscribeReqProto.SubscribeReq.getDefaultInstance()));
 
                             // ================== 编码 =================================
+
+                            // 对protobuf协议的的消息头上加上一个长度为32的整形字段，用于标志这个消息的长度。
                             ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                             ch.pipeline().addLast(new ProtobufEncoder());
 
-                            // 业务处理
+                            // ================== 业务处理 =================================
                             ch.pipeline().addLast(new SubReqServerHandler());
                         }
                     });
