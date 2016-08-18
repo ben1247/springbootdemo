@@ -1,10 +1,15 @@
 package com.shuyun.sbd.utils.netty.discard;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.shuyun.sbd.utils.JsonUtil;
 import com.shuyun.sbd.utils.netty.common.Constant;
 import com.shuyun.sbd.utils.netty.common.MyEncode;
+import com.shuyun.sbd.utils.netty.http.bean.RequestParam;
+import com.shuyun.sbd.utils.netty.protobuf.user.Person;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -41,9 +46,9 @@ public class DiscardClient {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new MyEncode());
                             ch.pipeline().addLast(new DelimiterBasedFrameDecoder(Integer.MAX_VALUE, Delimiters.lineDelimiter()[0]));
                             ch.pipeline().addLast(new StringDecoder());
-                            ch.pipeline().addLast(new MyEncode());
                             ch.pipeline().addLast(new DiscardClientHandler());
                         }
                     });
@@ -53,7 +58,7 @@ public class DiscardClient {
 
     }
 
-    public static Object start(String obj) throws Exception{
+    public static Object start(Object obj) throws Exception{
 
         ChannelFuture f =  b.connect("localhost",8999).sync();
 
@@ -70,6 +75,19 @@ public class DiscardClient {
         // 通道已关闭，返回通道的自定义属性值
         return f.channel().attr(AttributeKey.valueOf(Constant.ATTRIBUTE_KEY)).get();
 
+    }
+
+    public static void main(String [] args) throws Exception {
+
+        Person person = new Person();
+        person.setId("12");
+        person.setUsername("zhangsan");
+
+        RequestParam requestParam = new RequestParam();
+        requestParam.setCommand("httpGetEmailByUser");
+        requestParam.setParameter(JsonUtil.writeValueAsString(person));
+
+        System.out.println(start(JsonUtil.writeValueAsString(requestParam)));
     }
 
 }

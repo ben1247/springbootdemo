@@ -1,4 +1,4 @@
-package com.shuyun.sbd.utils.netty.http;
+package com.shuyun.sbd.utils.netty.combine;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
  *
  * @author yue.zhang
  */
-//@Component
-public class HttpServer implements ApplicationListener<ContextRefreshedEvent>,Ordered{
+@Component
+public class CombineServer implements ApplicationListener<ContextRefreshedEvent>,Ordered{
 
     public void run(int port) throws Exception{
 
@@ -34,7 +34,7 @@ public class HttpServer implements ApplicationListener<ContextRefreshedEvent>,Or
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
-                .childHandler(new HttpChannelInitializer());
+                .childHandler(new CombineChannelInitializer());
 
             // 绑定端口，同步等待成功
             ChannelFuture f = b.bind(port).sync();
