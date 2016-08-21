@@ -11,6 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
 
 import java.nio.charset.Charset;
+import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 
 /**
  * Component:
@@ -40,9 +41,9 @@ public class HttpServerHandler extends ChannelHandlerAdapter {
 
         FullHttpResponse response = new DefaultFullHttpResponse(
                 HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.wrappedBuffer(jsonp.getBytes("UTF-8")));
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/plain");
-        response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
-        response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+        response.headers().set(CONTENT_TYPE, "text/plain");
+        response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
+        response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
 
         ctx.writeAndFlush(response);
     }

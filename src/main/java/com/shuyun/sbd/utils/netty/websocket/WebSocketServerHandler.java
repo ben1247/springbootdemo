@@ -28,7 +28,7 @@ public class WebSocketServerHandler extends ChannelHandlerAdapter {
             FullHttpRequest req = (FullHttpRequest)msg;
 
             // 解码是否正确
-            if(!req.decoderResult().isSuccess() || !req.headers().get("Upgrade").equals("websocket")){
+            if(!req.getDecoderResult().isSuccess() || !req.headers().get("Upgrade").equals("websocket")){
                 // 输出 bad响应
                 DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,HttpResponseStatus.BAD_REQUEST);
                 ByteBuf buf = Unpooled.copiedBuffer("请求异常", CharsetUtil.UTF_8);
@@ -40,7 +40,7 @@ public class WebSocketServerHandler extends ChannelHandlerAdapter {
                 WebSocketServerHandshakerFactory handshakerFactory = new WebSocketServerHandshakerFactory("WS://127.0.0.1:8999/websocket",null,false);
                 handshaker = handshakerFactory.newHandshaker(req);
                 if(handshaker == null){
-                    WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
+                    WebSocketServerHandshakerFactory.sendUnsupportedWebSocketVersionResponse(ctx.channel());
                 }
                 handshaker.handshake(ctx.channel(),req);
             }

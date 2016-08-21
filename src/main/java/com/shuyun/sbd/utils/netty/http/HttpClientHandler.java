@@ -9,6 +9,7 @@ import io.netty.handler.codec.http.*;
 import io.netty.util.AttributeKey;
 
 import java.nio.charset.Charset;
+import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 
 /**
  * Component:
@@ -26,7 +27,7 @@ public class HttpClientHandler extends ChannelHandlerAdapter {
         if(msg instanceof HttpResponse){
             HttpResponse httpResponse = (HttpResponse) msg;
 
-            String contentType = httpResponse.headers().get(HttpHeaderNames.CONTENT_TYPE).toString();
+            String contentType = httpResponse.headers().get(CONTENT_TYPE).toString();
 //            System.out.println(contentType);
             ctx.channel().attr(AttributeKey.valueOf(Constant.ATTRIBUTE_KEY2)).set(contentType);
         }else if(msg instanceof HttpContent){

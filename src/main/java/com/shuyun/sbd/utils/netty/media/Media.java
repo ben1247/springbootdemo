@@ -7,6 +7,7 @@ import com.shuyun.sbd.utils.netty.protobuf.RequestMsgProbuf;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.*;
+import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -110,9 +111,9 @@ public class Media {
                 String jsonp = JsonUtil.writeValueAsString(response);
                 FullHttpResponse httpResponse = new DefaultFullHttpResponse(
                         HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.wrappedBuffer(jsonp.getBytes("UTF-8")));
-                httpResponse.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/plain");
-                httpResponse.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, httpResponse.content().readableBytes());
-                httpResponse.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+                httpResponse.headers().set(CONTENT_TYPE,"text/plain");
+                httpResponse.headers().set(CONTENT_LENGTH, httpResponse.content().readableBytes());
+                httpResponse.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
                 return httpResponse;
             }
 

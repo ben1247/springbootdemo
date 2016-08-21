@@ -15,6 +15,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.util.AttributeKey;
+import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 
 import java.net.URI;
 
@@ -70,10 +71,10 @@ public class HttpClient {
         DefaultFullHttpRequest req = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1,HttpMethod.GET,uri.toASCIIString(),content);
 
         // 设置头信息
-        req.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/plain");
-        req.headers().set(HttpHeaderNames.HOST,"127.0.0.1");
-        req.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
-        req.headers().set(HttpHeaderNames.CONNECTION,HttpHeaderValues.KEEP_ALIVE);
+        req.headers().set(CONTENT_TYPE,"text/plain");
+        req.headers().set(HOST,"127.0.0.1");
+        req.headers().set(CONTENT_LENGTH, content.readableBytes());
+        req.headers().set(CONNECTION,HttpHeaders.Values.KEEP_ALIVE);
 
         // 发送
         f.channel().writeAndFlush(req);
