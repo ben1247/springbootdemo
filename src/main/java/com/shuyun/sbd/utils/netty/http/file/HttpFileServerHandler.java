@@ -76,18 +76,18 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         }
 
         // Cache Validation
-        String ifModifiedSince = request.headers().get(IF_MODIFIED_SINCE);
-        if(ifModifiedSince != null && !ifModifiedSince.isEmpty()){
-            SimpleDateFormat dateFormatter = new SimpleDateFormat(HTTP_DATE_FORMAT, Locale.US);
-            Date ifModifiedSinceDate = dateFormatter.parse(ifModifiedSince);
-            // Only compare up to the second because the datetime format we send to the client does not have milliseconds
-            long ifModifiedSinceDateSeconds = ifModifiedSinceDate.getTime() / 1000;
-            long fileLastModifiedSeconds = file.lastModified() / 1000;
-            if (ifModifiedSinceDateSeconds == fileLastModifiedSeconds) {
-                sendNotModified(ctx);
-                return;
-            }
-        }
+//        String ifModifiedSince = request.headers().get(IF_MODIFIED_SINCE);
+//        if(ifModifiedSince != null && !ifModifiedSince.isEmpty()){
+//            SimpleDateFormat dateFormatter = new SimpleDateFormat(HTTP_DATE_FORMAT, Locale.US);
+//            Date ifModifiedSinceDate = dateFormatter.parse(ifModifiedSince);
+//            // Only compare up to the second because the datetime format we send to the client does not have milliseconds
+//            long ifModifiedSinceDateSeconds = ifModifiedSinceDate.getTime() / 1000;
+//            long fileLastModifiedSeconds = file.lastModified() / 1000;
+//            if (ifModifiedSinceDateSeconds == fileLastModifiedSeconds) {
+//                sendNotModified(ctx);
+//                return;
+//            }
+//        }
 
         RandomAccessFile raf;
         try{
@@ -113,8 +113,10 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         if(ctx.pipeline().get(SslHandler.class) == null){
             sendFileFuture = ctx.write(new DefaultFileRegion(raf.getChannel(),0,fileLength),ctx.newProgressivePromise());
         }else {
+            // 通过netty的chunkedFile对象直接将文件写入到发送缓冲区中。
             sendFileFuture = ctx.write(new ChunkedFile(raf,0,fileLength,8192),ctx.newProgressivePromise());
         }
+        // 增加监听，如果发送完成，打印 Transfer complete
         sendFileFuture.addListener(new ChannelProgressiveFutureListener() {
             @Override
             public void operationProgressed(ChannelProgressiveFuture future, long progress, long total) throws Exception {
@@ -131,7 +133,8 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
             }
         });
 
-        // Write the end marker
+        // 如果使用chunked编码，最后需要发送一个编码结束的空消息体，将LastHttpContent的EMPTY_LAST_CONTEN发送到缓冲区中，
+        // 标识所有消息体已经发送完成，同时调用flush方法将之前在发送缓冲区的消息刷新到SocketChannel中发送给对方。
         ChannelFuture lastContentFuture = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
 
         // Decide whether to close the connection or not
@@ -154,7 +157,11 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         try {
             uri = URLDecoder.decode(uri,"UTF-8");
         } catch (UnsupportedEncodingException e) {
-            throw new Error(e);
+            try{
+                uri = URLDecoder.decode(uri,"ISO-8859-1");
+            }catch (UnsupportedEncodingException e1) {
+                throw new Error(e);
+            }
         }
 
         if(!uri.startsWith("/")){

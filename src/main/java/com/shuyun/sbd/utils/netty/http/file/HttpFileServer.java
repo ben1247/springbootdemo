@@ -25,7 +25,7 @@ public class HttpFileServer {
 
     private static final String host = "127.0.0.1";
 
-    private static final String DEFAULT_URL = "/src/main/java/com/shuyun/sbd/utils/netty/http/file/";
+    private static final String DEFAULT_URL = "/src/main/java/com/shuyun/sbd/utils/netty/";
 
     public void run (final int port , final String url) throws Exception{
         EventLoopGroup bossGroup = new NioEventLoopGroup();
