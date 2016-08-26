@@ -1,6 +1,5 @@
 package com.shuyun.sbd.utils.netty.websocket;
 
-import com.shuyun.sbd.utils.netty.http.HttpChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
