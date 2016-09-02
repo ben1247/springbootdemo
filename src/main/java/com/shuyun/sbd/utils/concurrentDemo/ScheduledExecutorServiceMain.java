@@ -12,7 +12,7 @@ import java.util.concurrent.*;
 public class ScheduledExecutorServiceMain {
 
     public static void main(String [] args) throws ExecutionException, InterruptedException {
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
         ScheduledFuture scheduledFuture = scheduledExecutorService.schedule(new Callable<Object>() {
             @Override
@@ -21,7 +21,7 @@ public class ScheduledExecutorServiceMain {
 
                 return "Called";
             }
-        },3, TimeUnit.SECONDS);
+        },2, TimeUnit.SECONDS);
 
         System.out.println("result = " + scheduledFuture.get());
 
