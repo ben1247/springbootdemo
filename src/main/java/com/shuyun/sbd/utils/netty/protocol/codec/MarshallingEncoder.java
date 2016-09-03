@@ -18,7 +18,7 @@ public class MarshallingEncoder {
 
     private Marshaller marshaller;
 
-    public MarshallingEncoder(){
+    public MarshallingEncoder() throws IOException {
         marshaller = MarshallingCodecFactory.buildMarshalling();
     }
 

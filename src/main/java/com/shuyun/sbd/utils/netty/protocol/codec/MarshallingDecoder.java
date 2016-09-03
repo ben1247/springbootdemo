@@ -17,7 +17,7 @@ public class MarshallingDecoder {
 
     private final Unmarshaller unmarshaller;
 
-    public MarshallingDecoder() {
+    public MarshallingDecoder() throws IOException {
         unmarshaller = MarshallingCodecFactory.buildUnMarshalling();
     }
 

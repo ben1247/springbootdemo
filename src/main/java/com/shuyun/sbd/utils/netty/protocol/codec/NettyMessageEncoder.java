@@ -4,8 +4,10 @@ import com.shuyun.sbd.utils.netty.protocol.struct.NettyMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.handler.codec.MessageToMessageEncoder;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -16,19 +18,18 @@ import java.util.Map;
  *
  * @author yue.zhang
  */
-public class NettyMessageEncoder extends MessageToMessageEncoder<NettyMessage> {
+public class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage> {
 
     private MarshallingEncoder marshallingEncoder;
 
-    public NettyMessageEncoder() {
+    public NettyMessageEncoder() throws IOException {
         marshallingEncoder = new MarshallingEncoder();
     }
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, NettyMessage msg, List<Object> out) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, NettyMessage msg, ByteBuf sendBuf) throws Exception {
         if (msg == null || msg.getHeader() == null)
             throw new Exception("The encode message is null");
-        ByteBuf sendBuf = Unpooled.buffer();
         sendBuf.writeInt(msg.getHeader().getCrcCode());
         sendBuf.writeInt(msg.getHeader().getLength());
         sendBuf.writeLong(msg.getHeader().getSessionID());
@@ -55,7 +56,8 @@ public class NettyMessageEncoder extends MessageToMessageEncoder<NettyMessage> {
         if(msg.getBody() != null){
             marshallingEncoder.encode(msg.getBody(),sendBuf);
         }else{
-            sendBuf.setInt(4,sendBuf.readableBytes());
+            sendBuf.writeInt(0);
         }
+        sendBuf.setInt(4,sendBuf.readableBytes() - 8);
     }
 }

@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class ChannelBufferByteOutput implements ByteOutput {
 
-    private ByteBuf buffer;
+    private final ByteBuf buffer;
 
     public ChannelBufferByteOutput(ByteBuf buffer) {
         this.buffer = buffer;

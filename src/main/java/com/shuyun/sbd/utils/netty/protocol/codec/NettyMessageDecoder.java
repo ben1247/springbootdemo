@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder{
 
     private MarshallingDecoder marshallingDecoder;
 
-    public NettyMessageDecoder(int maxFrameLength , int lengthFieldOffset , int lengthFieldLength){
+    public NettyMessageDecoder(int maxFrameLength , int lengthFieldOffset , int lengthFieldLength) throws IOException {
         super(maxFrameLength,lengthFieldOffset,lengthFieldLength);
         marshallingDecoder = new MarshallingDecoder();
     }
@@ -37,12 +38,13 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder{
         }
         NettyMessage message = new NettyMessage();
         Header header = new Header();
-        header.setCrcCode(in.readInt());
-        header.setLength(in.readInt());
-        header.setSessionID(in.readLong());
-        header.setType(in.readByte());
-        header.setPriority(in.readByte());
-        int attachmentSize = in.readInt();
+        header.setCrcCode(frame.readInt());
+        header.setLength(frame.readInt());
+        header.setSessionID(frame.readLong());
+        header.setType(frame.readByte());
+        header.setPriority(frame.readByte());
+
+        int attachmentSize = frame.readInt();
         if(attachmentSize > 0){
             Map<String,Object> attch = new HashMap<>(attachmentSize);
             int keySize = 0;
@@ -50,19 +52,19 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder{
             String key = null;
             for(int i = 0 ; i < attachmentSize; i++){
                 // 获取key值
-                keySize = in.readInt();
+                keySize = frame.readInt();
                 keyArray = new byte[keySize];
-                in.readBytes(keyArray);
+                frame.readBytes(keyArray);
                 key = new String(keyArray,"utf-8");
 
-                attch.put(key,marshallingDecoder.decode(in));
+                attch.put(key,marshallingDecoder.decode(frame));
             }
             keyArray = null;
             key = null;
             header.setAttachment(attch);
         }
-        if(in.readableBytes() > 4){
-            message.setBody(marshallingDecoder.decode(in));
+        if(frame.readableBytes() > 4){
+            message.setBody(marshallingDecoder.decode(frame));
         }
         message.setHeader(header);
         return message;

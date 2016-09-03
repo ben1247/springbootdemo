@@ -41,19 +41,23 @@ public class ProtocolClient {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         // NettyMessageDecoder 用于消息解码，为了防止由于单条消息过大导致的内存溢出或者畸形码流导致解码错位引起内存分配失败，我们对单条消息最大长度进行了上限限制
-                        ch.pipeline().addLast("messageDecoder",new NettyMessageDecoder(1024 * 1024 , 4, 4));
-                        ch.pipeline().addLast("messageEncoder",new NettyMessageEncoder());
+                        ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024 , 4, 4));
+                        ch.pipeline().addLast("MessageEncoder",new NettyMessageEncoder());
                         ch.pipeline().addLast("readTimeoutHandler",new ReadTimeoutHandler(50));
-                        ch.pipeline().addLast("loginAuthHandler",new LoginAuthReqHandler());
-                        ch.pipeline().addLast("heartBeatHandler",new HeartBeatReqHandler());
+                        ch.pipeline().addLast("LoginAuthHandler",new LoginAuthReqHandler());
+                        ch.pipeline().addLast("HeartBeatHandler",new HeartBeatReqHandler());
                     }
                 });
 
             // 发起异步连接操作，发起TCP连接的代码与之前的不同，
             // 这次我们绑定了本地端口，主要用于服务端重复登录保护，另外，从产品管理角度看，一般情况下不允许系统随便使用随机端口
+//            ChannelFuture future = b.connect(
+//                    new InetSocketAddress(host,port),
+//                    new InetSocketAddress(Constant.LOCAL_IP,Constant.LOCAL_PORT)).sync();
             ChannelFuture future = b.connect(
-                    new InetSocketAddress(host,port),
-                    new InetSocketAddress(Constant.LOCAL_IP,Constant.LOCAL_PORT)).sync();
+                    new InetSocketAddress(host, port),
+                    new InetSocketAddress(Constant.LOCAL_IP,
+                            Constant.LOCAL_PORT)).sync();
 
             future.channel().closeFuture().sync();
 
@@ -65,7 +69,7 @@ public class ProtocolClient {
                     try {
                         TimeUnit.SECONDS.sleep(5);
                         try{
-                            connect(Constant.REMOTEIP,Constant.PORT);
+                            connect(Constant.REMOTEIP,Constant.PORT); // 发起重连操作
                         }catch (Exception e){
                             e.printStackTrace();
                         }
