@@ -51,13 +51,9 @@ public class ProtocolClient {
 
             // 发起异步连接操作，发起TCP连接的代码与之前的不同，
             // 这次我们绑定了本地端口，主要用于服务端重复登录保护，另外，从产品管理角度看，一般情况下不允许系统随便使用随机端口
-//            ChannelFuture future = b.connect(
-//                    new InetSocketAddress(host,port),
-//                    new InetSocketAddress(Constant.LOCAL_IP,Constant.LOCAL_PORT)).sync();
             ChannelFuture future = b.connect(
                     new InetSocketAddress(host, port),
-                    new InetSocketAddress(Constant.LOCAL_IP,
-                            Constant.LOCAL_PORT)).sync();
+                    new InetSocketAddress(Constant.LOCAL_IP, Constant.LOCAL_PORT)).sync();
 
             future.channel().closeFuture().sync();
 
