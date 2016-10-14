@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author yue.zhang
  */
-@Component
+//@Component
 public class InitMedia implements ApplicationListener<ContextRefreshedEvent>,Ordered {
 
     @Override
