@@ -41,4 +41,13 @@ public class Trade {
     public void setTid(String tid) {
         this.tid = tid;
     }
+
+    @Override
+    public String toString() {
+        return "Trade{" +
+                "price=" + price +
+                ", tid='" + tid + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
