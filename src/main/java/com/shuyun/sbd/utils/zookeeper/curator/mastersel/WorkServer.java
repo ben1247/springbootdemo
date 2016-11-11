@@ -55,6 +55,11 @@ public class WorkServer extends LeaderSelectorListenerAdapter implements Closeab
         processStop(this.name);
     }
 
+    /**
+     * 拿到了master
+     * @param client
+     * @throws Exception
+     */
     @Override
     public void takeLeadership(CuratorFramework client) throws Exception {
         processActiveEnter(this.name);
@@ -68,6 +73,8 @@ public class WorkServer extends LeaderSelectorListenerAdapter implements Closeab
             processActiveExit(this.name);
         }
     }
+
+    // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ 下面的几个方法是业务自定义方法，目前就只是打印出来 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 
     private void processStart(Object context){
         if(listener != null){

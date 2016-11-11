@@ -66,7 +66,7 @@ public class LeaderSelectorCurator {
             }
 
             System.out.println("Press enter/return to quit\n");
-            new BufferedReader(new InputStreamReader(System.in)).readLine();
+            new BufferedReader(new InputStreamReader(System.in)).readLine(); //一直等待直到按了回车代码才走下去
 
         }catch (Exception e){
             e.printStackTrace();
