@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Component:
+ * Component: 发布与订阅（服务注册和发现）客户端
  * Description:
  * Date: 16/11/11
  *
