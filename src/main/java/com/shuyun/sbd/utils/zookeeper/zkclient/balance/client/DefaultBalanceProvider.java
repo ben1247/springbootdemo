@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class DefaultBalanceProvider extends AbstractBalanceProvider<ServerData> {
 
-    private final String zkServer; // zk服务器的地址
     private final String serversPath; // zk中server节点的路径
     private final ZkClient zkClient; // zk客户端
 
@@ -25,7 +24,6 @@ public class DefaultBalanceProvider extends AbstractBalanceProvider<ServerData> 
     private static final Integer CONNECT_TIME_OUT = 10000;
 
     public DefaultBalanceProvider(String zkServer, String serversPath){
-        this.zkServer = zkServer;
         this.serversPath = serversPath;
         this.zkClient = new ZkClient(zkServer,SESSION_TIME_OUT,CONNECT_TIME_OUT,new SerializableSerializer());
     }

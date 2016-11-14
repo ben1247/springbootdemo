@@ -20,25 +20,18 @@ import org.I0Itec.zkclient.serialize.SerializableSerializer;
  */
 public class ServerImpl implements Server {
 
-    private EventLoopGroup boosGroup = new NioEventLoopGroup();
-    private EventLoopGroup workGroup = new NioEventLoopGroup();
-    private ServerBootstrap bootstrap = new ServerBootstrap();
-    private ChannelFuture cf;
-    private String zkAddress;
     private String serversPath;
     private String currentServerPath;
     private ServerData sd;
-
-    private volatile boolean binded = false;
-
     private final ZkClient zkClient;
     private final RegistProvider registProvider;
+
+    private volatile boolean binded = false;
 
     private static final Integer SESSION_TIME_OUT = 10000;
     private static final Integer CONNECT_TIME_OUT = 10000;
 
     public ServerImpl(String zkAddress , String serversPath , ServerData sd){
-        this.zkAddress = zkAddress;
         this.serversPath = serversPath;
         this.sd = sd;
         this.zkClient = new ZkClient(zkAddress,SESSION_TIME_OUT,CONNECT_TIME_OUT,new SerializableSerializer());
@@ -69,7 +62,11 @@ public class ServerImpl implements Server {
             return;
         }
 
-        bootstrap.group(boosGroup, workGroup)
+        EventLoopGroup boosGroup = new NioEventLoopGroup();
+        EventLoopGroup workGroup = new NioEventLoopGroup();
+        ServerBootstrap b = new ServerBootstrap();
+
+        b.group(boosGroup, workGroup)
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .childHandler(new ChannelInitializer<SocketChannel>(){
@@ -81,7 +78,7 @@ public class ServerImpl implements Server {
                 });
 
         try {
-            cf = bootstrap.bind(sd.getPort()).sync();
+            ChannelFuture cf = b.bind(sd.getPort()).sync();
             binded = true;
             System.out.println(sd.getPort()+": binded...");
             cf.channel().closeFuture().sync();
@@ -92,26 +89,6 @@ public class ServerImpl implements Server {
             workGroup.shutdownGracefully();
         }
 
-    }
-
-    public String getCurrentServerPath() {
-        return currentServerPath;
-    }
-
-    public String getZkAddress() {
-        return zkAddress;
-    }
-
-    public String getServersPath() {
-        return serversPath;
-    }
-
-    public ServerData getSd() {
-        return sd;
-    }
-
-    public void setSd(ServerData sd) {
-        this.sd = sd;
     }
 
 }
