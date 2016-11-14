@@ -68,12 +68,12 @@ public class ServerImpl implements Server {
 
         b.group(boosGroup, workGroup)
                 .channel(NioServerSocketChannel.class)
-                .option(ChannelOption.SO_BACKLOG, 1024)
-                .childHandler(new ChannelInitializer<SocketChannel>(){
+                .option(ChannelOption.SO_BACKLOG, 1024) // backlog指定了内核为此套接口排队的最大连接个数，netty默认为100
+                .childHandler(new ChannelInitializer<SocketChannel>() {
 
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ServerHandler(new DefaultBalanceUpdateProvider(currentServerPath,zkClient)));
+                        ch.pipeline().addLast(new ServerHandler(new DefaultBalanceUpdateProvider(currentServerPath, zkClient)));
                     }
                 });
 
