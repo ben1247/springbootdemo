@@ -76,7 +76,7 @@ public class ServerImpl implements Server {
 
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ServerHandler(new DefaultBalanceUpdateProvider(serversPath,zkClient)));
+                        ch.pipeline().addLast(new ServerHandler(new DefaultBalanceUpdateProvider(currentServerPath,zkClient)));
                     }
                 });
 
