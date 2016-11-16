@@ -1,4 +1,4 @@
-package com.shuyun.sbd.utils.zookeeper;
+package com.shuyun.sbd.utils.zookeeper.zkdemo;
 
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;

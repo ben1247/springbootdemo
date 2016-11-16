@@ -1,10 +1,9 @@
-package com.shuyun.sbd.utils.zookeeper;
+package com.shuyun.sbd.utils.zookeeper.zkdemo;
 
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
