@@ -32,13 +32,11 @@ public class QuickSort {
             while (low < high && array[high] >= temp){
                 high--;
             }
-
             array[low] = array[high]; // 比中轴小的记录移到低端
 
             while (low < high && array[low] <= temp){
                 low ++;
             }
-
             array[high] = array[low]; // 比中轴大的记录移到高端
         }
 
@@ -49,7 +47,7 @@ public class QuickSort {
 
     public static void main(String [] args){
 
-        int [] array = {49,38,65,97,76,13,27,49,78,34,12,64,5,4,62,99,98,54,56,17,18,23,34,15,35,25,53,51};
+        int [] array = {55,38,65,97,76,13,27,49,78,34,12,64,5,4,62,99,98,54,56,17,18,23,34,15,35,25,53,51};
 
         quick(array);
 
