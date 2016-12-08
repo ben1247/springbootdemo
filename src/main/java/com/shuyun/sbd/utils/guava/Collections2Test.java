@@ -2,6 +2,7 @@ package com.shuyun.sbd.utils.guava;
 
 import com.google.common.collect.Lists;
 
+import java.util.Collection;
 import java.util.List;
 
 /**

@@ -79,11 +79,26 @@ public class Test {
         System.out.println(a);
 
         System.out.println(5/2);
+
+        int num = 1_2_3;
+        System.out.println(num);
+
+        newswitch("me");
     }
 
     static int indexFor(int h, int length) {
         return h & (length-1);
     }
 
+    static void newswitch(String str) {
+        switch (str) {
+            case "me":
+                System.out.println("me");
+                break;
+            default:
+                System.out.println("other");
+                break;
+        }
+    }
 
 }

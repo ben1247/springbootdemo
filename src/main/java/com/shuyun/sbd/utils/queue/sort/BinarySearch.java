@@ -45,7 +45,7 @@ public class BinarySearch {
         System.out.println(binarySearch(array,T));
 
         // 此次排序最大次数为 5次
-        double logRes = Math.log(18) / Math.log(2);
+        double logRes = Math.log(1000000) / Math.log(2);
         System.out.println(logRes);
 
 
