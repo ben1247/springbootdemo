@@ -72,7 +72,7 @@ public class Test {
 
         HashMap<String,Integer> testHashMap = new HashMap<>();
         System.out.println(testHashMap.put("a",1)); // 应该返回oldValue
-        System.out.println(testHashMap.put("a",2));
+        System.out.println(testHashMap.put("a", 2));
 
         int a = 5 & 6; // 将5和6转化成二进制，然后进行与运算，只要有一个为0 则为0
 
@@ -84,6 +84,12 @@ public class Test {
         System.out.println(num);
 
         newswitch("me");
+
+        System.out.println(1 << 16);
+
+        int ssize = 1;
+        ssize <<= 1;
+        System.out.println(ssize);
     }
 
     static int indexFor(int h, int length) {
