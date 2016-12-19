@@ -15,7 +15,7 @@ public class LazySingleton {
 
     private static LazySingleton instance = null;
 
-    public static LazySingleton getInstance(){
+    public static synchronized LazySingleton getInstance(){
         if(instance == null){
             instance = new LazySingleton();
         }
@@ -27,7 +27,13 @@ public class LazySingleton {
     }
 
     public static void main(String [] args){
-        LazySingleton.createString();
+        long st = System.currentTimeMillis();
+        for(int i = 0 ; i < 10000000; i++){
+            LazySingleton.getInstance();
+        }
+        long et = System.currentTimeMillis();
+
+        System.out.println("spend: " + (et - st));
     }
 
 }

@@ -24,7 +24,14 @@ public class Singleton2 {
     }
 
     public static void main(String [] args){
-        Singleton2.createString();
+        long st = System.currentTimeMillis();
+        for(int i = 0 ; i < 10000000; i++){
+            Singleton2.getInstance();
+        }
+        long et = System.currentTimeMillis();
+
+        System.out.println("spend: " + (et - st));
+
     }
 
 }
