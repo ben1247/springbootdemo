@@ -90,6 +90,20 @@ public class Test {
         int ssize = 1;
         ssize <<= 1;
         System.out.println(ssize);
+
+
+        int x = 100;
+        int y = 200;
+        int average = (x&y)+((x^y)>>1);
+
+        x ^= y;
+        y ^= x;
+        x ^= y;
+
+        System.out.println(average);
+
+        System.out.println("x = " + x);
+        System.out.println("y = " + y);
     }
 
     static int indexFor(int h, int length) {
