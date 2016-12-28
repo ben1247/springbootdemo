@@ -61,4 +61,26 @@ public class ByteBufferDemo {
 
     }
 
+    public static void testByteBuffer(){
+        ByteBuffer b = ByteBuffer.allocate(15);
+        System.out.println("init: limit="+b.limit() + " capacity: " + b.capacity() + " position: " + b.position());
+        for(int i = 0 ; i < 10 ; i++){
+            b.put((byte)i);
+        }
+        System.out.println("insert: limit=" + b.limit() + " capacity: " + b.capacity() + " position: " + b.position());
+        b.flip();
+        System.out.println("flip: limit=" + b.limit() + " capacity: " + b.capacity() + " position: " + b.position());
+        for(int i = 0 ; i < 7; i++){
+            System.out.print(b.get());
+        }
+        System.out.println();
+        System.out.println("get 5: limit=" + b.limit() + " capacity: " + b.capacity() + " position: " + b.position());
+        b.flip();
+        System.out.println("flip: limit=" + b.limit() + " capacity: " + b.capacity() + " position: " + b.position());
+    }
+
+    public static void main(String [] args){
+        testByteBuffer();
+    }
+
 }
