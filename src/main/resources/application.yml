@@ -11,6 +11,6 @@ spring:
 
 sms:
   gd:
-    url: "http://211.100.62.140:9008/HttpQuickProcess/submitMessageAll"
-    username: sydd
-    password: sydd3
+    url: "xxxx"
+    username: xxx
+    password: yyy
