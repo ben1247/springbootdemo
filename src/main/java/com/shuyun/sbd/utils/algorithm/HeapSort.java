@@ -63,7 +63,7 @@ public class HeapSort {
     }
 
     public static void main(String[] args) {
-        int[] arr = { 3, 5, 15, 9, 10, 1};
+        int[] arr = { 3, 5, 15, 9, 10, 1,4,2,13,78,13};
         System.out.println("before build: " + Arrays.toString(arr)); // before build: [3, 5, 15, 9, 10, 1]
         buildMaxHeap(arr, arr.length);
         System.out.println("after build: " + Arrays.toString(arr)); // after build: [15, 10, 3, 9, 5, 1]

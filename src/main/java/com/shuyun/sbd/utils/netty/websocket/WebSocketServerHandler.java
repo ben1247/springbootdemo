@@ -15,6 +15,7 @@ import io.netty.util.CharsetUtil;
  *
  * @author yue.zhang
  */
+@Deprecated
 public class WebSocketServerHandler extends ChannelHandlerAdapter {
 
     private WebSocketServerHandshaker handshaker ;
@@ -37,6 +38,7 @@ public class WebSocketServerHandler extends ChannelHandlerAdapter {
 
                 ctx.writeAndFlush(response);
             }else{
+                // 握手协议
                 WebSocketServerHandshakerFactory handshakerFactory = new WebSocketServerHandshakerFactory("WS://127.0.0.1:8999/websocket",null,false);
                 handshaker = handshakerFactory.newHandshaker(req);
                 if(handshaker == null){

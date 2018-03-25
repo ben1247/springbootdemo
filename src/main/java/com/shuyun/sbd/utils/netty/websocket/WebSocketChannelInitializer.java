@@ -27,7 +27,9 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
         // 数据处理完之后进行编码
         channel.pipeline().addLast(new HttpResponseEncoder());
 
-//        channel.pipeline().addLast(new WebSocketServerHandler());
+//        channel.pipeline().addLast(new WebSocketServerHandler()); // 自己实现websocket协议的链接和通讯
+
+        // 这个handler已经帮你实现了websocket协议的链接和通讯，只要写下面的ChatRoomHandler即可
         channel.pipeline().addLast(new WebSocketServerProtocolHandler("/websocket"));
         channel.pipeline().addLast(new ChatRoomHandler());
     }

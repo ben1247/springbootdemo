@@ -4,11 +4,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.shuyun.sbd.utils.netty.protobuf.UserProbuf;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Component: JSON 工具类
@@ -73,6 +78,18 @@ public class JsonUtil {
             init();
         }
         return mapper.writeValueAsString(value);
+    }
+
+    public static void main(String [] args) throws IOException {
+        Object obj=new Object();
+        Map<String,Object> map=new HashMap<>();
+        map.put("1", obj);
+        map.put("2", obj);//引用了同一个对象
+        String res = JsonUtil.writeValueAsString(map);
+        System.out.println(res);
+
+        JavaType javaType = mapper.getTypeFactory().constructParametricType(ArrayList.class, UserProbuf.User.class);
+        mapper.readValue("",javaType);
     }
 
 }

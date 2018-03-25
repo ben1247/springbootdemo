@@ -48,5 +48,8 @@ public class User {
         return "User [age=" + age + ", name=" + name + "]";
     }
 
+    public void test(int a , String b){
+        System.out.println("doing test a: " + a + "  b: " + b);
+    }
 
 }

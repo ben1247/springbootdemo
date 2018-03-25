@@ -2,8 +2,7 @@ package com.shuyun.sbd.utils.guava;
 
 import com.google.common.collect.Lists;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Component:
@@ -16,6 +15,9 @@ public class Collections2Test {
 
     public static void main(String [] args){
         List<String> list = Lists.newArrayList();
+
+        Map map = new HashMap<>();
+        Collections.synchronizedMap(map);
     }
 
 }
